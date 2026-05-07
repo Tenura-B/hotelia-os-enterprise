@@ -221,7 +221,7 @@ export function AppShell({
               </h1>
               <Badge
                 variant="outline"
-                className="border-[var(--teal)]/30 bg-accent text-[10px] font-medium text-primary"
+                className="border-accent bg-accent text-[10px] font-medium text-primary"
               >
                 Live
               </Badge>
