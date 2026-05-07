@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RestaurantRouteImport } from './routes/restaurant'
 import { Route as ReservationsRouteImport } from './routes/reservations'
 import { Route as MaintenanceRouteImport } from './routes/maintenance'
+import { Route as HrmRouteImport } from './routes/hrm'
 import { Route as HousekeepingRouteImport } from './routes/housekeeping'
 import { Route as HotelRouteImport } from './routes/hotel'
 import { Route as CrmRouteImport } from './routes/crm'
@@ -30,6 +31,11 @@ const ReservationsRoute = ReservationsRouteImport.update({
 const MaintenanceRoute = MaintenanceRouteImport.update({
   id: '/maintenance',
   path: '/maintenance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HrmRoute = HrmRouteImport.update({
+  id: '/hrm',
+  path: '/hrm',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HousekeepingRoute = HousekeepingRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/crm': typeof CrmRoute
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
+  '/hrm': typeof HrmRoute
   '/maintenance': typeof MaintenanceRoute
   '/reservations': typeof ReservationsRoute
   '/restaurant': typeof RestaurantRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/crm': typeof CrmRoute
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
+  '/hrm': typeof HrmRoute
   '/maintenance': typeof MaintenanceRoute
   '/reservations': typeof ReservationsRoute
   '/restaurant': typeof RestaurantRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/crm': typeof CrmRoute
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
+  '/hrm': typeof HrmRoute
   '/maintenance': typeof MaintenanceRoute
   '/reservations': typeof ReservationsRoute
   '/restaurant': typeof RestaurantRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/crm'
     | '/hotel'
     | '/housekeeping'
+    | '/hrm'
     | '/maintenance'
     | '/reservations'
     | '/restaurant'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/crm'
     | '/hotel'
     | '/housekeeping'
+    | '/hrm'
     | '/maintenance'
     | '/reservations'
     | '/restaurant'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/crm'
     | '/hotel'
     | '/housekeeping'
+    | '/hrm'
     | '/maintenance'
     | '/reservations'
     | '/restaurant'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   CrmRoute: typeof CrmRoute
   HotelRoute: typeof HotelRoute
   HousekeepingRoute: typeof HousekeepingRoute
+  HrmRoute: typeof HrmRoute
   MaintenanceRoute: typeof MaintenanceRoute
   ReservationsRoute: typeof ReservationsRoute
   RestaurantRoute: typeof RestaurantRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/maintenance'
       fullPath: '/maintenance'
       preLoaderRoute: typeof MaintenanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hrm': {
+      id: '/hrm'
+      path: '/hrm'
+      fullPath: '/hrm'
+      preLoaderRoute: typeof HrmRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/housekeeping': {
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   CrmRoute: CrmRoute,
   HotelRoute: HotelRoute,
   HousekeepingRoute: HousekeepingRoute,
+  HrmRoute: HrmRoute,
   MaintenanceRoute: MaintenanceRoute,
   ReservationsRoute: ReservationsRoute,
   RestaurantRoute: RestaurantRoute,
