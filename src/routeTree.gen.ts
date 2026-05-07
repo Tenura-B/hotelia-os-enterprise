@@ -15,6 +15,7 @@ import { Route as MaintenanceRouteImport } from './routes/maintenance'
 import { Route as HrmRouteImport } from './routes/hrm'
 import { Route as HousekeepingRouteImport } from './routes/housekeeping'
 import { Route as HotelRouteImport } from './routes/hotel'
+import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as CrmRouteImport } from './routes/crm'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -48,6 +49,11 @@ const HotelRoute = HotelRouteImport.update({
   path: '/hotel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinanceRoute = FinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CrmRoute = CrmRouteImport.update({
   id: '/crm',
   path: '/crm',
@@ -62,6 +68,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/crm': typeof CrmRoute
+  '/finance': typeof FinanceRoute
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
   '/hrm': typeof HrmRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/crm': typeof CrmRoute
+  '/finance': typeof FinanceRoute
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
   '/hrm': typeof HrmRoute
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/crm': typeof CrmRoute
+  '/finance': typeof FinanceRoute
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
   '/hrm': typeof HrmRoute
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/crm'
+    | '/finance'
     | '/hotel'
     | '/housekeeping'
     | '/hrm'
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/crm'
+    | '/finance'
     | '/hotel'
     | '/housekeeping'
     | '/hrm'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/crm'
+    | '/finance'
     | '/hotel'
     | '/housekeeping'
     | '/hrm'
@@ -126,6 +138,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CrmRoute: typeof CrmRoute
+  FinanceRoute: typeof FinanceRoute
   HotelRoute: typeof HotelRoute
   HousekeepingRoute: typeof HousekeepingRoute
   HrmRoute: typeof HrmRoute
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HotelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance': {
+      id: '/finance'
+      path: '/finance'
+      fullPath: '/finance'
+      preLoaderRoute: typeof FinanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/crm': {
       id: '/crm'
       path: '/crm'
@@ -198,6 +218,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CrmRoute: CrmRoute,
+  FinanceRoute: FinanceRoute,
   HotelRoute: HotelRoute,
   HousekeepingRoute: HousekeepingRoute,
   HrmRoute: HrmRoute,
