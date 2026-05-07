@@ -14,6 +14,7 @@ import { Route as ReservationsRouteImport } from './routes/reservations'
 import { Route as MaintenanceRouteImport } from './routes/maintenance'
 import { Route as HousekeepingRouteImport } from './routes/housekeeping'
 import { Route as HotelRouteImport } from './routes/hotel'
+import { Route as CrmRouteImport } from './routes/crm'
 import { Route as IndexRouteImport } from './routes/index'
 
 const RestaurantRoute = RestaurantRouteImport.update({
@@ -41,6 +42,11 @@ const HotelRoute = HotelRouteImport.update({
   path: '/hotel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CrmRoute = CrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -49,6 +55,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/crm': typeof CrmRoute
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
   '/maintenance': typeof MaintenanceRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/crm': typeof CrmRoute
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
   '/maintenance': typeof MaintenanceRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/crm': typeof CrmRoute
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
   '/maintenance': typeof MaintenanceRoute
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/crm'
     | '/hotel'
     | '/housekeeping'
     | '/maintenance'
@@ -84,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/crm'
     | '/hotel'
     | '/housekeeping'
     | '/maintenance'
@@ -92,6 +103,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/crm'
     | '/hotel'
     | '/housekeeping'
     | '/maintenance'
@@ -101,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CrmRoute: typeof CrmRoute
   HotelRoute: typeof HotelRoute
   HousekeepingRoute: typeof HousekeepingRoute
   MaintenanceRoute: typeof MaintenanceRoute
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HotelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crm': {
+      id: '/crm'
+      path: '/crm'
+      fullPath: '/crm'
+      preLoaderRoute: typeof CrmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -157,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CrmRoute: CrmRoute,
   HotelRoute: HotelRoute,
   HousekeepingRoute: HousekeepingRoute,
   MaintenanceRoute: MaintenanceRoute,
