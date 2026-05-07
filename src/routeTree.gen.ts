@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RestaurantRouteImport } from './routes/restaurant'
 import { Route as ReservationsRouteImport } from './routes/reservations'
 import { Route as HotelRouteImport } from './routes/hotel'
 import { Route as IndexRouteImport } from './routes/index'
 
+const RestaurantRoute = RestaurantRouteImport.update({
+  id: '/restaurant',
+  path: '/restaurant',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReservationsRoute = ReservationsRouteImport.update({
   id: '/reservations',
   path: '/reservations',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/hotel': typeof HotelRoute
   '/reservations': typeof ReservationsRoute
+  '/restaurant': typeof RestaurantRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/hotel': typeof HotelRoute
   '/reservations': typeof ReservationsRoute
+  '/restaurant': typeof RestaurantRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/hotel': typeof HotelRoute
   '/reservations': typeof ReservationsRoute
+  '/restaurant': typeof RestaurantRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/hotel' | '/reservations'
+  fullPaths: '/' | '/hotel' | '/reservations' | '/restaurant'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/hotel' | '/reservations'
-  id: '__root__' | '/' | '/hotel' | '/reservations'
+  to: '/' | '/hotel' | '/reservations' | '/restaurant'
+  id: '__root__' | '/' | '/hotel' | '/reservations' | '/restaurant'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HotelRoute: typeof HotelRoute
   ReservationsRoute: typeof ReservationsRoute
+  RestaurantRoute: typeof RestaurantRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/restaurant': {
+      id: '/restaurant'
+      path: '/restaurant'
+      fullPath: '/restaurant'
+      preLoaderRoute: typeof RestaurantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reservations': {
       id: '/reservations'
       path: '/reservations'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HotelRoute: HotelRoute,
   ReservationsRoute: ReservationsRoute,
+  RestaurantRoute: RestaurantRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
