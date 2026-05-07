@@ -127,8 +127,8 @@ const bookings = [
 ];
 
 const statusTone: Record<string, string> = {
-  Confirmed: "bg-accent text-primary border-[var(--teal)]/20",
-  "Checked-in": "bg-[var(--teal)]/15 text-[var(--teal)] border-[var(--teal)]/30",
+  Confirmed: "bg-accent text-primary border-accent",
+  "Checked-in": "bg-accent text-[color:var(--teal)] border-accent",
   Awaiting: "bg-muted text-muted-foreground border-border",
   VIP: "bg-primary text-primary-foreground border-primary",
 };
