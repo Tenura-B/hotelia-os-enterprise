@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RestaurantRouteImport } from './routes/restaurant'
 import { Route as ReservationsRouteImport } from './routes/reservations'
 import { Route as MaintenanceRouteImport } from './routes/maintenance'
+import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as HrmRouteImport } from './routes/hrm'
 import { Route as HousekeepingRouteImport } from './routes/housekeeping'
 import { Route as HotelRouteImport } from './routes/hotel'
@@ -32,6 +33,11 @@ const ReservationsRoute = ReservationsRouteImport.update({
 const MaintenanceRoute = MaintenanceRouteImport.update({
   id: '/maintenance',
   path: '/maintenance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InventoryRoute = InventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HrmRoute = HrmRouteImport.update({
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
   '/hrm': typeof HrmRoute
+  '/inventory': typeof InventoryRoute
   '/maintenance': typeof MaintenanceRoute
   '/reservations': typeof ReservationsRoute
   '/restaurant': typeof RestaurantRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
   '/hrm': typeof HrmRoute
+  '/inventory': typeof InventoryRoute
   '/maintenance': typeof MaintenanceRoute
   '/reservations': typeof ReservationsRoute
   '/restaurant': typeof RestaurantRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/hotel': typeof HotelRoute
   '/housekeeping': typeof HousekeepingRoute
   '/hrm': typeof HrmRoute
+  '/inventory': typeof InventoryRoute
   '/maintenance': typeof MaintenanceRoute
   '/reservations': typeof ReservationsRoute
   '/restaurant': typeof RestaurantRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/hotel'
     | '/housekeeping'
     | '/hrm'
+    | '/inventory'
     | '/maintenance'
     | '/reservations'
     | '/restaurant'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/hotel'
     | '/housekeeping'
     | '/hrm'
+    | '/inventory'
     | '/maintenance'
     | '/reservations'
     | '/restaurant'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/hotel'
     | '/housekeeping'
     | '/hrm'
+    | '/inventory'
     | '/maintenance'
     | '/reservations'
     | '/restaurant'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   HotelRoute: typeof HotelRoute
   HousekeepingRoute: typeof HousekeepingRoute
   HrmRoute: typeof HrmRoute
+  InventoryRoute: typeof InventoryRoute
   MaintenanceRoute: typeof MaintenanceRoute
   ReservationsRoute: typeof ReservationsRoute
   RestaurantRoute: typeof RestaurantRoute
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/maintenance'
       fullPath: '/maintenance'
       preLoaderRoute: typeof MaintenanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inventory': {
+      id: '/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof InventoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hrm': {
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   HotelRoute: HotelRoute,
   HousekeepingRoute: HousekeepingRoute,
   HrmRoute: HrmRoute,
+  InventoryRoute: InventoryRoute,
   MaintenanceRoute: MaintenanceRoute,
   ReservationsRoute: ReservationsRoute,
   RestaurantRoute: RestaurantRoute,
