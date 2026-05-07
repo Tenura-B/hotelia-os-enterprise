@@ -18,6 +18,7 @@ import { Route as HousekeepingRouteImport } from './routes/housekeeping'
 import { Route as HotelRouteImport } from './routes/hotel'
 import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as CrmRouteImport } from './routes/crm'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 
 const RestaurantRoute = RestaurantRouteImport.update({
@@ -65,6 +66,11 @@ const CrmRoute = CrmRouteImport.update({
   path: '/crm',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -73,6 +79,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/crm': typeof CrmRoute
   '/finance': typeof FinanceRoute
   '/hotel': typeof HotelRoute
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/crm': typeof CrmRoute
   '/finance': typeof FinanceRoute
   '/hotel': typeof HotelRoute
@@ -98,6 +106,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/crm': typeof CrmRoute
   '/finance': typeof FinanceRoute
   '/hotel': typeof HotelRoute
@@ -112,6 +121,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/analytics'
     | '/crm'
     | '/finance'
     | '/hotel'
@@ -124,6 +134,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/analytics'
     | '/crm'
     | '/finance'
     | '/hotel'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/analytics'
     | '/crm'
     | '/finance'
     | '/hotel'
@@ -149,6 +161,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyticsRoute: typeof AnalyticsRoute
   CrmRoute: typeof CrmRoute
   FinanceRoute: typeof FinanceRoute
   HotelRoute: typeof HotelRoute
@@ -225,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CrmRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -237,6 +257,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyticsRoute: AnalyticsRoute,
   CrmRoute: CrmRoute,
   FinanceRoute: FinanceRoute,
   HotelRoute: HotelRoute,
