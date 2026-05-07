@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RestaurantRouteImport } from './routes/restaurant'
 import { Route as ReservationsRouteImport } from './routes/reservations'
+import { Route as HousekeepingRouteImport } from './routes/housekeeping'
 import { Route as HotelRouteImport } from './routes/hotel'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -22,6 +23,11 @@ const RestaurantRoute = RestaurantRouteImport.update({
 const ReservationsRoute = ReservationsRouteImport.update({
   id: '/reservations',
   path: '/reservations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HousekeepingRoute = HousekeepingRouteImport.update({
+  id: '/housekeeping',
+  path: '/housekeeping',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HotelRoute = HotelRouteImport.update({
@@ -38,12 +44,14 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/hotel': typeof HotelRoute
+  '/housekeeping': typeof HousekeepingRoute
   '/reservations': typeof ReservationsRoute
   '/restaurant': typeof RestaurantRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/hotel': typeof HotelRoute
+  '/housekeeping': typeof HousekeepingRoute
   '/reservations': typeof ReservationsRoute
   '/restaurant': typeof RestaurantRoute
 }
@@ -51,20 +59,28 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/hotel': typeof HotelRoute
+  '/housekeeping': typeof HousekeepingRoute
   '/reservations': typeof ReservationsRoute
   '/restaurant': typeof RestaurantRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/hotel' | '/reservations' | '/restaurant'
+  fullPaths: '/' | '/hotel' | '/housekeeping' | '/reservations' | '/restaurant'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/hotel' | '/reservations' | '/restaurant'
-  id: '__root__' | '/' | '/hotel' | '/reservations' | '/restaurant'
+  to: '/' | '/hotel' | '/housekeeping' | '/reservations' | '/restaurant'
+  id:
+    | '__root__'
+    | '/'
+    | '/hotel'
+    | '/housekeeping'
+    | '/reservations'
+    | '/restaurant'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HotelRoute: typeof HotelRoute
+  HousekeepingRoute: typeof HousekeepingRoute
   ReservationsRoute: typeof ReservationsRoute
   RestaurantRoute: typeof RestaurantRoute
 }
@@ -83,6 +99,13 @@ declare module '@tanstack/react-router' {
       path: '/reservations'
       fullPath: '/reservations'
       preLoaderRoute: typeof ReservationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/housekeeping': {
+      id: '/housekeeping'
+      path: '/housekeeping'
+      fullPath: '/housekeeping'
+      preLoaderRoute: typeof HousekeepingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hotel': {
@@ -105,6 +128,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HotelRoute: HotelRoute,
+  HousekeepingRoute: HousekeepingRoute,
   ReservationsRoute: ReservationsRoute,
   RestaurantRoute: RestaurantRoute,
 }
