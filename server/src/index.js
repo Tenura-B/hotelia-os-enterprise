@@ -10,7 +10,7 @@ const dbManager = require('./core/DatabaseManager');
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({ origin: '*' })); // Allow all origins for local dev
 app.use(express.json());
 
 // Middleware
@@ -37,6 +37,20 @@ app.post('/api/auth/login', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(401).json({ error: error.message });
+  }
+});
+
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const { userId, password, name } = req.body;
+    if (!userId || !password) {
+      return res.status(400).json({ error: 'Username and password are required' });
+    }
+    const result = await authService.register(userId, password, name);
+    res.status(201).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: error.message });
   }
 });
 

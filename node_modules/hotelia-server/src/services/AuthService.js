@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const userRepository = require('../repositories/UserRepository');
 const dbManager = require('../core/DatabaseManager');
+const seedService = require('./SeedService');
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'change-this-secret';
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'change-this-refresh-secret';
@@ -15,6 +16,37 @@ class AuthService {
 
   generateRefreshToken(userId) {
     return jwt.sign({ userId }, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRY });
+  }
+
+  async register(userId, password, name = '') {
+    console.log(`[Auth] Register attempt for: ${userId}`);
+    const existingUser = await userRepository.findByUserId(userId);
+    
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
+
+    const salt = bcrypt.genSaltSync(10);
+    const passwordHash = bcrypt.hashSync(password, salt);
+    const dbName = `tenant_${userId.replace(/[^a-zA-Z0-9]/g, '_')}`;
+
+    console.log(`[Auth] Creating user ${userId} and tenant database ${dbName}...`);
+    
+    await dbManager.queryMaster(
+      'INSERT INTO users (id, name, db_name, password_hash) VALUES (?, ?, ?, ?)',
+      [userId, name || userId, dbName, passwordHash]
+    );
+
+    try {
+      await seedService.ensureTenantDatabase(dbName);
+      await seedService.executeSqlFile('user-schema.sql', dbName);
+      console.log(`[Auth] Tenant database ${dbName} provisioned successfully.`);
+    } catch (err) {
+      console.error(`[Auth] Error provisioning tenant database:`, err);
+      // We might want to clean up or flag the user if this fails, but for now we proceed.
+    }
+
+    return this.login(userId, password);
   }
 
   async login(userId, password) {

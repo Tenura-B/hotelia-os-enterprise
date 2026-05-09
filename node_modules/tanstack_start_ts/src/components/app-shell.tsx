@@ -34,6 +34,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { AuthModal } from "@/components/AuthModal";
+import { authApi } from "@/lib/auth";
+import { useEffect, useState } from "react";
 
 const nav = [
   {
@@ -97,6 +100,28 @@ export function AppShell({
   actions?: ReactNode;
   children: ReactNode;
 }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    const token = authApi.getToken();
+    setIsAuthenticated(!!token);
+    setIsMounted(true);
+  }, []);
+
+  const handleSignOut = () => {
+    authApi.logout();
+    window.location.reload();
+  };
+
+  if (!isMounted) {
+    return <div className="flex min-h-screen w-full bg-background" />; // Prevent flash during hydration
+  }
+
+  if (!isAuthenticated) {
+    return <AuthModal />;
+  }
+
   return (
     <div className="flex min-h-screen w-full bg-background">
       {/* Sidebar */}
@@ -187,6 +212,7 @@ export function AppShell({
               <Bell className="h-4 w-4" />
               <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />
             </Button>
+            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 rounded-lg pl-1 pr-2 py-1 hover:bg-accent/50">
@@ -196,7 +222,7 @@ export function AppShell({
                     </AvatarFallback>
                   </Avatar>
                   <div className="hidden md:block text-left leading-tight">
-                    <p className="text-[12px] font-semibold text-foreground">Léa Marchand</p>
+                    <p className="text-[12px] font-semibold text-foreground">User</p>
                     <p className="text-[10px] text-muted-foreground">General manager</p>
                   </div>
                 </button>
@@ -206,7 +232,7 @@ export function AppShell({
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>Preferences</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Sign out</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleSignOut}>Sign out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
